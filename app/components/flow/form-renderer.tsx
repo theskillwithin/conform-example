@@ -104,21 +104,21 @@ export default function FormRenderer({
           </div>
         ))}
 
-        <div className="flex gap-4 mt-6">
+        <div className="mt-6 flex gap-4">
           {!navigation.isFirstStep && (
             <Link
               to={href(ROUTES.FLOW.FORM, {
                 formId: navigation.formId,
                 stepSlug: navigation.previousStepSlug,
               })}
-              className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
+              className="rounded border border-gray-300 px-4 py-2 hover:bg-gray-50"
             >
               {step.buttons?.back || DEFAULT_BACK_TEXT}
             </Link>
           )}
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
           >
             {step.buttons?.continue || DEFAULT_CONTINUE_TEXT}
           </button>

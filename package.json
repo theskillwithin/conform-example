@@ -8,9 +8,14 @@
     "build": "react-router build",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
-    "types": "react-router typegen"
+    "types": "react-router typegen",
+    "test:e2e": "playwright test --reporter=line",
+    "test:e2e:ui": "playwright test --reporter=line --ui",
+    "lint": "biome check",
+    "lint:fix": "biome check --write"
   },
   "dependencies": {
+    "@biomejs/biome": "2.3.8",
     "@base-ui/react": "^1.0.0",
     "@conform-to/react": "1.13.3",
     "@conform-to/zod": "1.13.3",
@@ -26,6 +31,7 @@
     "isbot": "^5"
   },
   "devDependencies": {
+    "@playwright/test": "1.57.0",
     "@react-router/dev": "7.10.1",
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^22",

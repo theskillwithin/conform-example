@@ -78,7 +78,9 @@ export default function Input({
           inputClassName,
         )}
       />
-      <BaseField.Error match className="text-red-500 text-sm mt-1">{errors?.[0]}</BaseField.Error>
+      <BaseField.Error match className="mt-1 text-red-500 text-sm">
+        {errors?.[0]}
+      </BaseField.Error>
     </BaseField.Root>
   );
 }

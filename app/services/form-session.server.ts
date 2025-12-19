@@ -2,7 +2,8 @@
 // In production, this would use cookies + database like the original
 
 // Simple in-memory store (resets on server restart)
-const sessions: Map<string, { formId: string; data: Record<string, unknown> }> = new Map();
+const sessions: Map<string, { formId: string; data: Record<string, unknown> }> =
+  new Map();
 
 function getSessionId(request: Request, formId: string): string {
   // In a real app, this would come from a cookie
@@ -13,7 +14,7 @@ function getSessionId(request: Request, formId: string): string {
 
 export async function getFormSession(
   request: Request,
-  formId: string
+  formId: string,
 ): Promise<{ data: Record<string, unknown> } | null> {
   const sessionId = getSessionId(request, formId);
   const session = sessions.get(sessionId);
@@ -48,7 +49,7 @@ export async function saveFormSession({
 
 export async function clearFormSession(
   request: Request,
-  formId: string
+  formId: string,
 ): Promise<void> {
   const sessionId = getSessionId(request, formId);
   sessions.delete(sessionId);

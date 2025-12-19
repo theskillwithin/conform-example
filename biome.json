@@ -1,0 +1,139 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!**/package.json",
+      "!**/node_modules/**/*",
+      "!**/.sst/**/*",
+      "!**/sst-env.d.ts",
+      "!prisma/**/*",
+      "!tests-examples/**/*",
+      "!app/generated/**/*",
+      "!styled-system/**/*",
+      "!.react-router/**/*",
+      "!test-results/**/*",
+      "!playwright-report/**/*",
+      "!build/client/**/*",
+      "!build/server/**/*",
+      "!build/**/*",
+      "!coverage/**/*",
+      "!dist/**/*"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto",
+    "bracketSpacing": true
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ":URL:",
+              ":NODE:",
+              ":PACKAGE:",
+              ":BLANK_LINE:",
+              "./+types/**",
+              ":BLANK_LINE:",
+              "~/generated/**",
+              ":BLANK_LINE:",
+              "~/schemas/**",
+              ":BLANK_LINE:",
+              ["~/resources/**", "~/services/**", "~/middleware/**"],
+              ":BLANK_LINE:",
+              "~/utils/**",
+              ":BLANK_LINE:",
+              ["~/components/**", "~/ui/**"],
+              ":ALIAS:"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "domains": {
+      "react": "recommended"
+    },
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "recommended": true,
+        "noArrayIndexKey": "off"
+      },
+      "style": {
+        "recommended": true,
+        "noNonNullAssertion": "off",
+        "noProcessEnv": "off"
+      },
+      "complexity": {
+        "recommended": true
+      },
+      "security": {
+        "recommended": true
+      },
+      "performance": {
+        "recommended": true
+      },
+      "correctness": {
+        "recommended": true,
+        "noUnusedImports": "error",
+        "noUnusedVariables": {
+          "level": "error",
+          "options": {
+            "ignoreRestSiblings": true
+          }
+        },
+        "noUnusedLabels": "error",
+        "noUnusedFunctionParameters": "error"
+      },
+      "a11y": {
+        "recommended": true,
+        "noSvgWithoutTitle": "off"
+      },
+      "nursery": {
+        "recommended": true,
+        "useSortedClasses": {
+          "level": "error",
+          "fix": "safe",
+          "options": {
+            "attributes": ["className"],
+            "functions": ["cn", "tw", "clsx", "twMerge"]
+          }
+        }
+      }
+    },
+    "includes": ["**", "!**/scripts/**/*.js"]
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSameLine": false,
+      "quoteStyle": "double",
+      "attributePosition": "auto",
+      "bracketSpacing": true
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
+}

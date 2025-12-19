@@ -46,15 +46,11 @@ export function Progress({
     >
       {label && (
         <div className="mb-2 flex justify-between text-sm">
-          <BaseProgress.Label
-            className={cn("text-gray-900", labelClassName)}
-          >
+          <BaseProgress.Label className={cn("text-gray-900", labelClassName)}>
             {label}
           </BaseProgress.Label>
           {showValue && (
-            <BaseProgress.Value
-              className={cn("text-gray-900", valueClassName)}
-            >
+            <BaseProgress.Value className={cn("text-gray-900", valueClassName)}>
               {(formattedValue, currentValue) =>
                 currentValue !== null
                   ? `${currentValue} / ${max}`
@@ -79,7 +75,7 @@ export function Progress({
       </BaseProgress.Track>
       {!label && showValue && (
         <BaseProgress.Value
-          className={cn("mt-2 text-sm text-gray-900", valueClassName)}
+          className={cn("mt-2 text-gray-900 text-sm", valueClassName)}
         >
           {(formattedValue, currentValue) =>
             currentValue !== null ? `${currentValue} / ${max}` : formattedValue

@@ -11,15 +11,17 @@ export async function loader({ params }: Route.LoaderArgs) {
   return { formId };
 }
 
-export default function Finished({ loaderData: { formId } }: Route.ComponentProps) {
+export default function Finished({
+  loaderData: { formId },
+}: Route.ComponentProps) {
   return (
-    <div className="p-8 max-w-2xl mx-auto text-center">
-      <h1 className="text-2xl font-bold mb-4">Form Complete!</h1>
+    <div className="mx-auto max-w-2xl p-8 text-center">
+      <h1 className="mb-4 font-bold text-2xl">Form Complete!</h1>
       <p className="mb-4">Thank you for completing the {formId} form.</p>
 
       <Link
         to="/"
-        className="inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        className="inline-block rounded bg-blue-600 px-4 py-2 text-white hover:bg-blue-700"
       >
         Back to Home
       </Link>

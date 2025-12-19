@@ -14,7 +14,10 @@ import {
 import { getStepMetaData } from "~/services/form/meta.server";
 import { buildSchemaFromStep } from "~/services/form/schema";
 import { validateFormAndStep } from "~/services/form/validation.server";
-import { getFormSession, saveFormSession } from "~/services/form-session.server";
+import {
+  getFormSession,
+  saveFormSession,
+} from "~/services/form-session.server";
 
 import FormRenderer from "~/components/flow/form-renderer";
 import { ROUTES } from "~/routes";
@@ -107,32 +110,32 @@ export async function action({ request, params }: Route.ActionArgs) {
 }
 
 export default function FormFlow({
-  loaderData: {
-    formConfig,
-    step,
-    navigation,
-    stepSlug,
-    existingData,
-  },
+  loaderData: { formConfig, step, navigation, stepSlug, existingData },
 }: Route.ComponentProps) {
   return (
-    <div className="flex flex-col gap-3 p-3 max-w-2xl mx-auto">
+    <div className="mx-auto flex max-w-2xl flex-col gap-3 p-3">
       <FormRenderer
         step={step}
         navigation={navigation}
         existingData={existingData}
       />
       {formConfig.debug && (
-        <details className="mt-4 p-4 bg-gray-100 rounded">
-          <summary className="cursor-pointer font-medium">Debug Information</summary>
+        <details className="mt-4 rounded bg-gray-100 p-4">
+          <summary className="cursor-pointer font-medium">
+            Debug Information
+          </summary>
           <div className="mt-2 space-y-2">
             <details>
               <summary className="cursor-pointer">Form Config</summary>
-              <pre className="mt-1 text-xs overflow-auto">{JSON.stringify(formConfig, null, 2)}</pre>
+              <pre className="mt-1 overflow-auto text-xs">
+                {JSON.stringify(formConfig, null, 2)}
+              </pre>
             </details>
             <details>
               <summary className="cursor-pointer">Step</summary>
-              <pre className="mt-1 text-xs overflow-auto">{JSON.stringify(step, null, 2)}</pre>
+              <pre className="mt-1 overflow-auto text-xs">
+                {JSON.stringify(step, null, 2)}
+              </pre>
             </details>
             <details>
               <summary className="cursor-pointer">Step Slug</summary>
@@ -140,7 +143,9 @@ export default function FormFlow({
             </details>
             <details>
               <summary className="cursor-pointer">Existing Data</summary>
-              <pre className="mt-1 text-xs overflow-auto">{JSON.stringify(existingData, null, 2)}</pre>
+              <pre className="mt-1 overflow-auto text-xs">
+                {JSON.stringify(existingData, null, 2)}
+              </pre>
             </details>
           </div>
         </details>

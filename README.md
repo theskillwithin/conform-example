@@ -129,6 +129,43 @@ const { form, fields } = useForm({
 });
 ```
 
+## E2E Tests
+
+The project includes comprehensive Playwright e2e tests for the form flow.
+
+### Running E2E Tests
+
+```bash
+# Install Playwright browsers (first time only)
+npx playwright install
+
+# Run all e2e tests
+npm run test:e2e
+
+# Run e2e tests with UI
+npm run test:e2e:ui
+```
+
+### Test Coverage
+
+The e2e tests cover:
+
+- Form field interactions (text, checkbox, radio, switch, select, combobox, textarea, masked inputs)
+- Form validation (required fields, field-specific validators)
+- Multi-step navigation (forward/back)
+- Form state persistence across steps
+- Accessibility attributes
+- Info popovers
+- URL parameter preservation during redirects
+
+### Test Files
+
+```
+tests/
+└── e2e/
+    └── form-flow-basic.spec.ts   # Comprehensive form flow tests
+```
+
 ## Notes
 
 - Session storage is in-memory (resets on server restart)

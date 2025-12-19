@@ -51,7 +51,9 @@ export default function Switch({
           )}
         </span>
       </Field.Label>
-      <Field.Error match className="text-red-500 text-sm mt-1">{errors?.[0]}</Field.Error>
+      <Field.Error match className="mt-1 text-red-500 text-sm">
+        {errors?.[0]}
+      </Field.Error>
     </Field.Root>
   );
 }

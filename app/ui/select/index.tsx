@@ -115,7 +115,9 @@ export default function Select({
           </BaseSelect.Positioner>
         </BaseSelect.Portal>
       </BaseSelect.Root>
-      <Field.Error match className="text-red-500 text-sm mt-1">{errors?.[0]}</Field.Error>
+      <Field.Error match className="mt-1 text-red-500 text-sm">
+        {errors?.[0]}
+      </Field.Error>
     </Field.Root>
   );
 }
