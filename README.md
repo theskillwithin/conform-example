@@ -50,7 +50,7 @@ app/
 │   │   ├── constants.ts            # Button text constants
 │   │   ├── form-options.ts         # Select options (US states, etc.)
 │   │   └── meta.server.ts          # Meta tag generation
-│   └── form-session.server.ts      # In-memory session storage
+│   └── form-session.server.ts      # Mocked session storage (cookie-based, no database)
 ├── ui/                             # Form UI components
 │   ├── input/
 │   ├── select/
@@ -168,6 +168,6 @@ tests/
 
 ## Notes
 
-- Session storage is in-memory (resets on server restart)
+- Session storage is mocked using cookie-based storage (no database). In production, this would use cookies + database like the original implementation.
 - The `test` form config has debug mode enabled
 - All field types are demonstrated in the 3-step test form
