@@ -66,13 +66,9 @@ async function selectComboboxOption(
  */
 
 test.describe("Form Flow - Basic Tests", () => {
-  test.beforeEach(async ({ page, context }, _testInfo) => {
-    // Clear all cookies, localStorage, and sessionStorage before each test
-    await context.clearCookies();
-    await page.addInitScript(() => {
-      localStorage.clear();
-      sessionStorage.clear();
-    });
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/flow/test/step-1");
+    await page.waitForLoadState("networkidle");
   });
 
   test("should load without JavaScript errors", async ({ page }) => {
