@@ -12,6 +12,8 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "types": "react-router typegen",
+    "test:unit": "vitest run --project unit --passWithNoTests",
+    "test:integration": "vitest run --project integration",
     "test:e2e": "playwright test --reporter=line",
     "test:e2e:ui": "playwright test --reporter=line --ui",
     "lint": "biome check",
@@ -44,6 +46,8 @@
     "@types/node": "^22",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "@vitest/browser": "^4.0.16",
+    "@vitest/ui": "^4.0.16",
     "babel-plugin-react-compiler": "^1.0.0",
     "dotenv": "^17.2.3",
     "prisma": "^7.2.0",
@@ -51,6 +55,8 @@
     "tailwindcss": "^4.1.18",
     "typescript": "5.9.3",
     "vite": "7.2.7",
-    "vite-tsconfig-paths": "5.1.4"
+    "vite-tsconfig-paths": "5.1.4",
+    "vitest": "^4.0.16",
+    "vitest-dom": "^0.1.1"
   }
 }
