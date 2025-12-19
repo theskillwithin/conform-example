@@ -8,3 +8,5 @@ build
 
 /generated/prisma
 dev.db
+
+test-results
