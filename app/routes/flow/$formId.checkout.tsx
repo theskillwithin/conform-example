@@ -3,7 +3,7 @@ import { href, Link } from "react-router";
 import type { Route } from "./+types/$formId.checkout";
 
 import { validateForm } from "~/services/form/validation.server";
-import { getFormSessionData } from "~/services/form-session.server";
+import { getFormSessionById } from "~/services/form-session.server";
 
 import { ROUTES } from "~/routes";
 
@@ -11,7 +11,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const { formId } = params;
   validateForm(formId);
 
-  const formSession = await getFormSessionData(request, formId);
+  const formSession = await getFormSessionById(request, formId);
 
   return {
     formId,

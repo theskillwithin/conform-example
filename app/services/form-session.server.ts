@@ -2,16 +2,24 @@ import type { Session } from "react-router";
 import { createCookieSessionStorage, redirect } from "react-router";
 import invariant from "tiny-invariant";
 
+import type { FormSession } from "~/generated/prisma/client";
+import type { FormSessionCreateInput } from "~/generated/prisma/models";
+
 import type { formConfigKey } from "~/services/form/config.server";
 
+import { getEnvValue } from "~/utils/env";
 import type { FormDataRecord } from "~/utils/validation";
 
-import type { FormSession } from "../../generated/prisma/client";
-import type { FormSessionCreateInput } from "../../generated/prisma/models/FormSession";
 import { prisma } from "./db.server";
 import { combineHeaders } from "./http.server";
 
-const FORM_SESSION_MAX_AGE = 60 * 60 * 24 * 7; // 7 days
+const SESSION_SECRET = getEnvValue("SESSION_SECRET") || "sample-secret";
+
+if (!SESSION_SECRET) {
+  throw new Error("FORM SESSION SECRET IS NOT VALID");
+}
+
+const FORM_SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
 // Form Session Storage
 const formSessionStorage = createCookieSessionStorage({
@@ -21,6 +29,7 @@ const formSessionStorage = createCookieSessionStorage({
     maxAge: FORM_SESSION_MAX_AGE,
     path: "/",
     httpOnly: true,
+    secrets: [SESSION_SECRET],
     secure: process.env.NODE_ENV === "production",
   },
 });
@@ -32,6 +41,15 @@ const formSessionStorage = createCookieSessionStorage({
  */
 export const getCookieHeader = (request: Request) =>
   request.headers.get("Cookie");
+
+/**
+ * Destroys a form session
+ * @param session - The session to destroy
+ * @returns Promise<string> - The destroy cookie string
+ */
+export function destroyFormSession(session: Session) {
+  return formSessionStorage.destroySession(session);
+}
 
 /**
  * Gets a form session from a cookie string
@@ -48,29 +66,32 @@ export function getFormSessionFromCookie(cookie: string | null) {
  * @returns The form session
  */
 export function getFormSession(request: Request) {
-  const cookie = getCookieHeader(request);
+  const cookie = request.headers.get("Cookie");
   return getFormSessionFromCookie(cookie);
 }
 
 /**
- * Commits a form session with the configured max age
- * @param session - The session to commit
- * @returns Promise<string> - The session cookie string
+ * Redirects to a URL and destroys the form session
+ * @param request - The incoming request
+ * @param redirectUrl - The URL to redirect to
+ * @param extraHeaders - Additional headers to include
+ * @returns Promise<Response> - The redirect response
  */
-export function commitFormSession(session: Session) {
-  return formSessionStorage.commitSession(session, {
-    maxAge: FORM_SESSION_MAX_AGE,
+export const redirectAndDestroyFormSession = async (
+  request: Request,
+  redirectUrl: string,
+  ...extraHeaders: Array<ResponseInit["headers"] | undefined>
+) => {
+  const session = await formSessionStorage.getSession(getCookieHeader(request));
+  const destroyCookie = await formSessionStorage.destroySession(session);
+  const headers = combineHeaders(
+    { "Set-Cookie": destroyCookie },
+    ...extraHeaders,
+  );
+  return redirect(redirectUrl, {
+    headers,
   });
-}
-
-/**
- * Destroys a form session
- * @param session - The session to destroy
- * @returns Promise<string> - The destroy cookie string
- */
-export function destroyFormSession(session: Session) {
-  return formSessionStorage.destroySession(session);
-}
+};
 
 /**
  * Generates a session key for a specific form
@@ -104,57 +125,6 @@ const createNewFormSession = async ({
   session.set(key, formSession.id);
   return formSessionStorage.commitSession(session);
 };
-
-/**
- * Safely gets a specific form session by formId without throwing
- * @param request - The incoming request
- * @param formId - The form configuration key
- */
-export const getFormSessionById = async (
-  request: Request,
-  formId: formConfigKey,
-) => {
-  const session = await formSessionStorage.getSession(getCookieHeader(request));
-  const key = sessionKey(formId);
-
-  if (session.has(key)) {
-    const formSessionId = session.get(key);
-    return await prisma.formSession.findUnique({
-      where: { id: formSessionId },
-    });
-  }
-
-  return undefined;
-};
-
-/**
- * Gets form session data for a specific form
- * @param request - The incoming request
- * @param formId - The form configuration key
- * @returns Promise with form session data or null
- */
-export async function getFormSessionData(
-  request: Request,
-  formId: formConfigKey,
-) {
-  const formSession = await getFormSessionById(request, formId);
-
-  if (formSession && formSession.formId === formId) {
-    const existingSessionData = formSession.data;
-
-    // Guard against primitive types - ensure data is an object or undefined
-    invariant(
-      existingSessionData === undefined ||
-        (typeof existingSessionData === "object" &&
-          existingSessionData !== null),
-      "Form session data must be an object",
-    );
-
-    return { data: existingSessionData as FormDataRecord };
-  }
-
-  return null;
-}
 
 /**
  * Creates or updates a form session for a specific form
@@ -230,49 +200,25 @@ export const createOrUpdateFormSession = async ({
 };
 
 /**
- * Creates or updates a form session for a specific form (simplified wrapper)
+ * Safely gets a specific form session by formId without throwing
  * @param request - The incoming request
- * @param data - Form data to store
- * @param formId - The form ID
- * @returns Promise<string> - Session cookie string
+ * @param formId - The form configuration key
  */
-export async function saveFormSession({
-  formId,
-  data,
-  request,
-}: {
-  formId: formConfigKey;
-  data: FormDataRecord;
-  request: Request;
-}): Promise<string> {
-  return createOrUpdateFormSession({
-    data,
-    formId,
-    request,
-  });
-}
-
-/**
- * Redirects to a URL and destroys the form session
- * @param request - The incoming request
- * @param redirectUrl - The URL to redirect to
- * @param extraHeaders - Additional headers to include
- * @returns Promise<Response> - The redirect response
- */
-export const redirectAndDestroyFormSession = async (
+export const getFormSessionById = async (
   request: Request,
-  redirectUrl: string,
-  ...extraHeaders: Array<ResponseInit["headers"] | undefined>
+  formId: formConfigKey,
 ) => {
   const session = await formSessionStorage.getSession(getCookieHeader(request));
-  const destroyCookie = await formSessionStorage.destroySession(session);
-  const headers = combineHeaders(
-    { "Set-Cookie": destroyCookie },
-    ...extraHeaders,
-  );
-  return redirect(redirectUrl, {
-    headers,
-  });
+  const key = sessionKey(formId);
+
+  if (session.has(key)) {
+    const formSessionId = session.get(key);
+    return await prisma.formSession.findUnique({
+      where: { id: formSessionId },
+    });
+  }
+
+  return undefined;
 };
 
 /**
@@ -296,21 +242,12 @@ export async function redirectWithSession({
 }
 
 /**
- * Clears a form session for a specific form
- * @param request - The incoming request
- * @param formId - The form configuration key
- * @returns Promise<string> - Session cookie string
+ * Commits a form session with the configured max age
+ * @param session - The session to commit
+ * @returns Promise<string> - The session cookie string
  */
-export async function clearFormSession(
-  request: Request,
-  formId: formConfigKey,
-): Promise<string> {
-  const session = await getFormSession(request);
-  const key = sessionKey(formId);
-
-  if (session.has(key)) {
-    session.unset(key);
-  }
-
-  return commitFormSession(session);
+export function commitFormSession(session: Session) {
+  return formSessionStorage.commitSession(session, {
+    maxAge: FORM_SESSION_MAX_AGE,
+  });
 }

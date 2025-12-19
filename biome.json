@@ -12,6 +12,7 @@
       "!prisma/**/*",
       "!tests-examples/**/*",
       "!app/generated/**/*",
+      "!generated/**/*",
       "!styled-system/**/*",
       "!.react-router/**/*",
       "!test-results/**/*",

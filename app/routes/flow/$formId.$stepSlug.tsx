@@ -15,8 +15,8 @@ import { getStepMetaData } from "~/services/form/meta.server";
 import { buildSchemaFromStep } from "~/services/form/schema";
 import { validateFormAndStep } from "~/services/form/validation.server";
 import {
-  getFormSessionData,
-  saveFormSession,
+  createOrUpdateFormSession,
+  getFormSessionById,
 } from "~/services/form-session.server";
 
 import FormRenderer from "~/components/flow/form-renderer";
@@ -34,7 +34,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const metaData = getStepMetaData({ formConfig, stepSlug });
 
   // Get existing form session data to populate the form
-  const formSession = await getFormSessionData(request, formId);
+  const formSession = await getFormSessionById(request, formId);
   const existingData = formSession?.data;
 
   // Guard against primitive types - ensure data is an object or undefined
@@ -78,8 +78,8 @@ export async function action({ request, params }: Route.ActionArgs) {
     };
   }
 
-  // Save form data to session
-  const sessionCookie = await saveFormSession({
+  // Save form data to database/session and get the cookie
+  const sessionCookie = await createOrUpdateFormSession({
     formId,
     data: result.value,
     request,
@@ -120,32 +120,24 @@ export default function FormFlow({
         existingData={existingData}
       />
       {formConfig.debug && (
-        <details className="mt-4 rounded bg-gray-100 p-4">
-          <summary className="cursor-pointer font-medium">
-            Debug Information
-          </summary>
-          <div className="mt-2 space-y-2">
+        <details>
+          <summary>Debug Information</summary>
+          <div>
             <details>
-              <summary className="cursor-pointer">Form Config</summary>
-              <pre className="mt-1 overflow-auto text-xs">
-                {JSON.stringify(formConfig, null, 2)}
-              </pre>
+              <summary>Form Config</summary>
+              <pre>{JSON.stringify(formConfig, null, 2)}</pre>
             </details>
             <details>
-              <summary className="cursor-pointer">Step</summary>
-              <pre className="mt-1 overflow-auto text-xs">
-                {JSON.stringify(step, null, 2)}
-              </pre>
+              <summary>Step</summary>
+              <pre>{JSON.stringify(step, null, 2)}</pre>
             </details>
             <details>
-              <summary className="cursor-pointer">Step Slug</summary>
+              <summary>Step Slug</summary>
               <code>{stepSlug}</code>
             </details>
             <details>
-              <summary className="cursor-pointer">Existing Data</summary>
-              <pre className="mt-1 overflow-auto text-xs">
-                {JSON.stringify(existingData, null, 2)}
-              </pre>
+              <summary>Existing Data</summary>
+              <pre>{JSON.stringify(existingData, null, 2)}</pre>
             </details>
           </div>
         </details>

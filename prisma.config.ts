@@ -9,6 +9,7 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
+    // biome-ignore lint/complexity/useLiteralKeys: boilerplate
     url: process.env["DATABASE_URL"],
   },
 });
