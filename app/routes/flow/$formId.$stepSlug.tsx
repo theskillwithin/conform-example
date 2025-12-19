@@ -15,7 +15,7 @@ import { getStepMetaData } from "~/services/form/meta.server";
 import { buildSchemaFromStep } from "~/services/form/schema";
 import { validateFormAndStep } from "~/services/form/validation.server";
 import {
-  getFormSession,
+  getFormSessionData,
   saveFormSession,
 } from "~/services/form-session.server";
 
@@ -34,7 +34,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const metaData = getStepMetaData({ formConfig, stepSlug });
 
   // Get existing form session data to populate the form
-  const formSession = await getFormSession(request, formId);
+  const formSession = await getFormSessionData(request, formId);
   const existingData = formSession?.data;
 
   // Guard against primitive types - ensure data is an object or undefined
