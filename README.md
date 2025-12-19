@@ -50,7 +50,8 @@ app/
 │   │   ├── constants.ts            # Button text constants
 │   │   ├── form-options.ts         # Select options (US states, etc.)
 │   │   └── meta.server.ts          # Meta tag generation
-│   └── form-session.server.ts      # Mocked session storage (cookie-based, no database)
+│   ├── form-session.server.ts      # Session storage (cookies + SQLite database)
+│   └── db.server.ts                # Prisma database client
 ├── ui/                             # Form UI components
 │   ├── input/
 │   ├── select/
@@ -168,6 +169,20 @@ tests/
 
 ## Notes
 
-- Session storage is mocked using cookie-based storage (no database). In production, this would use cookies + database like the original implementation.
+- Session storage uses cookies + SQLite database (via Prisma). Session IDs are stored in cookies, form data is stored in the database.
 - The `test` form config has debug mode enabled
 - All field types are demonstrated in the 3-step test form
+
+## Database Setup
+
+This project uses Prisma with SQLite for session storage. To set up the database:
+
+```bash
+# Generate Prisma client
+npx prisma generate
+
+# Run migrations (creates database if it doesn't exist)
+npx prisma migrate dev
+```
+
+The database file (`dev.db`) will be created in the project root.
