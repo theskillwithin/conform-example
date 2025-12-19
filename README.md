@@ -178,11 +178,8 @@ tests/
 This project uses Prisma with SQLite for session storage. To set up the database:
 
 ```bash
-# Generate Prisma client
-npx prisma generate
-
 # Run migrations (creates database if it doesn't exist)
-npx prisma migrate dev
+npm run db:setup
 ```
 
 The database file (`dev.db`) will be created in the project root.
