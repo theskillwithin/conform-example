@@ -70,9 +70,12 @@ export default function FormRenderer({
   const baseSchema = buildSchemaFromStep(step);
   const schema = coerceFormValue(baseSchema);
 
-  const { form, fields } = useForm({
+  const { form, fields } = useForm(schema, {
+    // Conform v1.14+ locks in defaultValue after the form is initialized.
+    // Using a step-based key ensures Conform resets to the latest defaultValue
+    // when the step changes.
+    key: step.slug,
     lastResult: actionData?.result,
-    schema,
     shouldValidate: "onBlur",
     shouldRevalidate: "onInput",
     defaultValue: existingData,
@@ -88,8 +91,7 @@ export default function FormRenderer({
               <div key={colIndex} className="mb-3">
                 {column.fields.map((field) => {
                   const fieldConfig = fields[field.name];
-
-                  const { key: _, ...fieldsetWithoutKey } = fieldConfig;
+                  const { key: fieldKey, ...fieldsetWithoutKey } = fieldConfig;
 
                   return (
                     <RenderField
