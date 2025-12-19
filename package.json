@@ -4,6 +4,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate",
     "dev": "react-router dev",
     "build": "react-router build",
     "start": "react-router-serve ./build/server/index.js",
