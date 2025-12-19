@@ -91,7 +91,7 @@ export default function FormRenderer({
               <div key={colIndex} className="mb-3">
                 {column.fields.map((field) => {
                   const fieldConfig = fields[field.name];
-                  const { key: fieldKey, ...fieldsetWithoutKey } = fieldConfig;
+                  const { key: _, ...fieldsetWithoutKey } = fieldConfig;
 
                   return (
                     <RenderField
