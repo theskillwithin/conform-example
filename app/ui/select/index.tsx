@@ -82,7 +82,7 @@ export default function Select({
           aria-labelledby={`${name}-label`}
           aria-invalid={ariaInvalid}
           aria-describedby={ariaDescribedBy}
-          className="focus-visible:-outline-offset-1 flex h-10 w-full cursor-default select-none items-center justify-between gap-3 rounded-md border border-gray-200 pr-3 pl-3.5 text-base hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-blue-500 data-popup-open:bg-gray-100"
+          className="flex h-10 w-full cursor-default select-none items-center justify-between gap-3 rounded-md border border-gray-200 pr-3 pl-3.5 text-base hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:-outline-offset-1 data-popup-open:bg-gray-100"
         >
           <BaseSelect.Value />
           <BaseSelect.Icon className="flex">
