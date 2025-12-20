@@ -7,7 +7,7 @@ A minimal React Router example for testing Conform form validation upgrades.
 This is a reduced example of a multi-step form flow using:
 
 - **React Router 7** - File-based routing with SSR
-- **Conform** - Form validation library (`@conform-to/react`, `@conform-to/zod`)
+- **[Conform](https://github.com/edmundhung/conform)** - Form validation library (`@conform-to/react`, `@conform-to/zod`)
 - **Zod 4** - Schema validation
 - **Base UI** - Accessible UI components
 - **Tailwind CSS 4** - Styling
