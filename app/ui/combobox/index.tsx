@@ -103,7 +103,7 @@ export default function Combobox({
             id={id}
             aria-invalid={ariaInvalid}
             aria-describedby={ariaDescribedBy}
-            className="focus:-outline-offset-1 h-10 w-full rounded-md border border-gray-200 bg-[canvas] pl-3.5 font-normal text-base focus:outline-2 focus:outline-blue-500"
+            className="h-10 w-full rounded-md border border-gray-200 bg-[canvas] pl-3.5 font-normal text-base focus:outline-2 focus:outline-blue-500 focus:-outline-offset-1"
           />
           <div className="absolute right-2 bottom-0 flex h-10 items-center justify-center text-gray-600">
             <BaseCombobox.Clear
@@ -123,7 +123,7 @@ export default function Combobox({
 
         <BaseCombobox.Portal>
           <BaseCombobox.Positioner className="outline-none" sideOffset={4}>
-            <BaseCombobox.Popup className="dark:-outline-offset-1 max-h-[min(var(--available-height),23rem)] w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) scroll-pt-2 scroll-pb-2 overflow-y-auto overscroll-contain rounded-md bg-[canvas] py-2 shadow-gray-200 shadow-lg outline-1 outline-gray-200 transition-[transform,scale,opacity] data-ending-style:scale-95 data-starting-style:scale-95 data-ending-style:opacity-0 data-starting-style:opacity-0 dark:shadow-none dark:outline-gray-300">
+            <BaseCombobox.Popup className="max-h-[min(var(--available-height),23rem)] w-(--anchor-width) max-w-(--available-width) origin-(--transform-origin) scroll-pt-2 scroll-pb-2 overflow-y-auto overscroll-contain rounded-md bg-[canvas] py-2 shadow-gray-200 shadow-lg outline-1 outline-gray-200 transition-[transform,scale,opacity] data-ending-style:scale-95 data-starting-style:scale-95 data-ending-style:opacity-0 data-starting-style:opacity-0 dark:shadow-none dark:outline-gray-300 dark:-outline-offset-1">
               <BaseCombobox.Empty className="px-4 py-2 text-[0.925rem] text-gray-600 leading-4 empty:m-0 empty:p-0">
                 No items found.
               </BaseCombobox.Empty>

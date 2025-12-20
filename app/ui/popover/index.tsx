@@ -68,8 +68,8 @@ export function Popover({
       </BasePopover.Trigger>
       <BasePopover.Portal>
         <BasePopover.Positioner side={side} sideOffset={sideOffset}>
-          <BasePopover.Popup className="-outline-offset-1 origin-(--transform-origin) rounded-lg bg-[canvas] px-6 py-4 shadow-gray-200 shadow-lg outline-1 outline-gray-200 transition-[transform,scale,opacity] data-ending-style:scale-90 data-starting-style:scale-90 data-ending-style:opacity-0 data-starting-style:opacity-0 dark:shadow-none dark:outline-gray-300">
-            <BasePopover.Arrow className="data-[side=right]:-rotate-90 data-[side=bottom]:top-[-8px] data-[side=left]:right-[-13px] data-[side=top]:bottom-[-8px] data-[side=right]:left-[-13px] data-[side=left]:rotate-90 data-[side=top]:rotate-180">
+          <BasePopover.Popup className="origin-(--transform-origin) rounded-lg bg-[canvas] px-6 py-4 shadow-gray-200 shadow-lg outline-1 outline-gray-200 -outline-offset-1 transition-[transform,scale,opacity] data-ending-style:scale-90 data-starting-style:scale-90 data-ending-style:opacity-0 data-starting-style:opacity-0 dark:shadow-none dark:outline-gray-300">
+            <BasePopover.Arrow className="data-[side=bottom]:top-[-8px] data-[side=left]:right-[-13px] data-[side=top]:bottom-[-8px] data-[side=right]:left-[-13px] data-[side=left]:rotate-90 data-[side=right]:-rotate-90 data-[side=top]:rotate-180">
               <ArrowSvg />
             </BasePopover.Arrow>
             {content}
