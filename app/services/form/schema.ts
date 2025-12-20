@@ -69,7 +69,11 @@ function applyRequiredValidation(schema: z.ZodTypeAny, field: Field) {
   if (!field.required) {
     return schema.optional();
   }
-  if (schema instanceof z.ZodArray || schema instanceof z.ZodString) {
+  // With `coerceFormValue`, empty strings are coerced to `undefined` for
+  // string-based fields, so a required `z.string()` will already fail with the
+  // required error. Arrays are different: missing values are coerced to `[]`,
+  // so we still need a length check for checkbox groups / multi-select inputs.
+  if (schema instanceof z.ZodArray) {
     return schema.min(1, `${field.label} is required`);
   }
   return schema;
