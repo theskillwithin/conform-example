@@ -98,7 +98,11 @@ export default function FormRenderer({
                       key={field.name}
                       {...field}
                       {...fieldsetWithoutKey}
+                      id={fieldConfig.id}
                       errors={fieldConfig.errors}
+                      defaultValue={fieldConfig.defaultValue}
+                      name={fieldConfig.name}
+                      defaultOptions={fieldConfig.defaultOptions}
                     />
                   );
                 })}
