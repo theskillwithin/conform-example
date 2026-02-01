@@ -98,6 +98,7 @@ export default function FormRenderer({
                       key={field.name}
                       {...field}
                       {...fieldsetWithoutKey}
+                      errors={fieldConfig.errors}
                     />
                   );
                 })}
