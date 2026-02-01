@@ -1,5 +1,4 @@
 import type { FieldMetadata, FormOptions } from "@conform-to/react/future";
-import { useForm } from "@conform-to/react/future";
 import { coerceFormValue } from "@conform-to/zod/v4/future";
 import { Form, href, Link, useActionData } from "react-router";
 
@@ -13,6 +12,8 @@ import {
   DEFAULT_CONTINUE_TEXT,
 } from "~/services/form/constants";
 import { buildSchemaFromStep } from "~/services/form/schema";
+
+import { useForm } from "~/utils/conform";
 
 import { ProgressIndicator } from "~/components/flow/progress-indicator";
 import CheckboxGroup from "~/ui/checkbox-group";
@@ -76,8 +77,6 @@ export default function FormRenderer({
     // when the step changes.
     key: step.slug,
     lastResult: actionData?.result,
-    shouldValidate: "onBlur",
-    shouldRevalidate: "onInput",
     defaultValue: existingData,
   });
 
