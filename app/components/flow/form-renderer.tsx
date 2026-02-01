@@ -93,11 +93,14 @@ export default function FormRenderer({
                   const fieldConfig = fields[field.name];
                   const { key: _, ...fieldsetWithoutKey } = fieldConfig;
 
+                  const fieldErrors = form.fieldErrors?.[field.name];
+
                   return (
                     <RenderField
                       key={field.name}
                       {...fieldsetWithoutKey}
                       {...field}
+                      errors={fieldErrors}
                     />
                   );
                 })}
